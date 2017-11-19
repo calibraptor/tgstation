@@ -31,7 +31,7 @@
 				if(ishostile(target))
 					var/mob/living/simple_animal/hostile/H = M
 					if(malfunctioning)
-						H.faction |= list("lazarus", "\ref[user]")
+						H.faction |= list("lazarus", "[REF(user)]")
 						H.robust_searching = 1
 						H.friends += user
 						H.attack_same = 1
@@ -40,7 +40,7 @@
 						H.attack_same = 0
 				loaded = 0
 				user.visible_message("<span class='notice'>[user] injects [M] with [src], reviving it.</span>")
-				SSblackbox.add_details("lazarus_injector", "[M.type]")
+				SSblackbox.record_feedback("tally", "lazarus_injector", 1, M.type)
 				playsound(src,'sound/effects/refill.ogg',50,1)
 				icon_state = "lazarus_empty"
 				return
