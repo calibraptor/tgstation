@@ -22,8 +22,6 @@
 	var/last_insert_success
 	var/precise_insertion = FALSE
 	var/datum/callback/precondition
-	//MAX_STACK_SIZE = 50
-	//MINERAL_MATERIAL_AMOUNT = 2000
 
 /datum/component/material_container/Initialize(list/mat_list, max_amt = 0, _show_on_examine = FALSE, list/allowed_types, datum/callback/_precondition)
 	materials = list()
@@ -115,7 +113,7 @@
 		return (total_amount - total_amount_saved)
 	return FALSE
 
-/datum/component/material_container/proc/insert_stack(obj/item/stack/S, amt)
+/datum/component/material_container/proc/insert_stack(obj/item/stack/S, amt, multiplier = 1)
 	if(isnull(amt))
 		amt = S.amount
 
@@ -133,7 +131,7 @@
 	if(!amt)
 		return FALSE
 
-	last_inserted_id = insert_materials(S,amt)
+	last_inserted_id = insert_materials(S,amt * multiplier)
 	last_inserted_type = S.type
 	S.use(amt)
 	last_amount_inserted = amt
@@ -143,7 +141,7 @@
 	if(!I)
 		return FALSE
 	if(istype(I, /obj/item/stack))
-		return insert_stack(I, stack_amt)
+		return insert_stack(I, stack_amt, multiplier)
 
 	var/material_amount = get_item_material_amount(I)
 	if(!material_amount || !has_space(material_amount))
